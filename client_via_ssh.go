@@ -1,4 +1,4 @@
-package pgdb
+package geb
 
 import (
 	"context"
