@@ -42,13 +42,14 @@ func (pg *PG) Close(ctx context.Context) error {
 }
 
 type ConnectConfig struct {
-	DBHost      string
-	DBPort      int
-	DBUser      string
-	DBPassword  string
-	DBName      string
-	MaxIdleCon  int
-	EnableDebug bool
+	DBHost       string
+	DBPort       int
+	DBUser       string
+	DBPassword   string
+	DBName       string
+	MaxIdleCon   int
+	MaxOpenConns int
+	EnableDebug  bool
 }
 
 func Connect(conf ConnectConfig) (*PG, error) {
@@ -81,6 +82,7 @@ func Connect(conf ConnectConfig) (*PG, error) {
 	}
 
 	sqlDB.SetMaxIdleConns(conf.MaxIdleCon)
+	sqlDB.SetMaxOpenConns(conf.MaxOpenConns)
 
 	return &PG{
 		DB: db,

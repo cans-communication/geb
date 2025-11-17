@@ -89,6 +89,7 @@ type ConnectViaSSHConfig struct {
 	DBPassword    string
 	DBName        string
 	MaxIdleCon    int
+	MaxOpenConns  int
 	EnableDebug   bool
 }
 
@@ -155,6 +156,7 @@ func ConnectViaSSH(conf ConnectViaSSHConfig) (*PGViaSSH, error) {
 	}
 
 	sqlDB.SetMaxIdleConns(conf.MaxIdleCon)
+	sqlDB.SetMaxOpenConns(conf.MaxOpenConns)
 
 	return &PGViaSSH{
 		DB:     db,
