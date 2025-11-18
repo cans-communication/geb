@@ -42,14 +42,14 @@ func (pg *PG) Close(ctx context.Context) error {
 }
 
 type ConnectConfig struct {
-	DBHost       string
-	DBPort       int
-	DBUser       string
-	DBPassword   string
-	DBName       string
-	MaxIdleCon   int
-	MaxOpenConns int
-	EnableDebug  bool
+	DBHost         string
+	DBPort         int
+	DBUser         string
+	DBPassword     string
+	DBName         string
+	MaxIdleCon     int
+	MaxOpenConns   int
+	EnableLogDebug bool
 }
 
 func Connect(conf ConnectConfig) (*PG, error) {
@@ -62,7 +62,7 @@ func Connect(conf ConnectConfig) (*PG, error) {
 	)
 
 	logMode := logger.Silent
-	if conf.EnableDebug {
+	if conf.EnableLogDebug {
 		logMode = logger.Info
 	}
 

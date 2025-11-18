@@ -90,7 +90,7 @@ type ConnectViaSSHConfig struct {
 	DBName        string
 	MaxIdleCon    int
 	MaxOpenConns  int
-	EnableDebug   bool
+	EnableLogDebug   bool
 }
 
 func ConnectViaSSH(conf ConnectViaSSHConfig) (*PGViaSSH, error) {
@@ -132,7 +132,7 @@ func ConnectViaSSH(conf ConnectViaSSHConfig) (*PGViaSSH, error) {
 	}
 
 	logMode := logger.Silent
-	if conf.EnableDebug {
+	if conf.EnableLogDebug {
 		logMode = logger.Info
 	}
 
