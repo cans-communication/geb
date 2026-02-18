@@ -89,6 +89,8 @@ type ConnectViaSSHConfig struct {
 	DBPassword    string
 	DBName        string
 	MaxIdleCon    int
+	MaxOpenConns  int
+	EnableLogDebug   bool
 }
 
 func ConnectViaSSH(conf ConnectViaSSHConfig) (*PGViaSSH, error) {
@@ -129,12 +131,17 @@ func ConnectViaSSH(conf ConnectViaSSHConfig) (*PGViaSSH, error) {
 		return nil, err
 	}
 
+	logMode := logger.Silent
+	if conf.EnableLogDebug {
+		logMode = logger.Info
+	}
+
 	db, err := gorm.Open(
 		postgres.New(postgres.Config{
 			Conn: sqldb,
 		}),
 		&gorm.Config{
-			Logger: logger.Default.LogMode(logger.Silent),
+			Logger: logger.Default.LogMode(logMode),
 		},
 	)
 
@@ -149,6 +156,7 @@ func ConnectViaSSH(conf ConnectViaSSHConfig) (*PGViaSSH, error) {
 	}
 
 	sqlDB.SetMaxIdleConns(conf.MaxIdleCon)
+	sqlDB.SetMaxOpenConns(conf.MaxOpenConns)
 
 	return &PGViaSSH{
 		DB:     db,
